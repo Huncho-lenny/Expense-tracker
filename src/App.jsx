@@ -13,6 +13,10 @@ function App() {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  const handleAddExpense = (newExpense) => {
+    setExpenses([...expenses, { ...newExpense, id: expenses.length + 1 }]);
+  };
+
   const filteredExpenses = expenses.filter((expense) =>
     expense.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -21,7 +25,7 @@ function App() {
     <div className="App">
       <h1>Expense Tracker</h1>
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <ExpenseForm setExpenses={setExpenses} />
+      <ExpenseForm onAddExpense={handleAddExpense} />
       <ExpenseTable expenses={filteredExpenses} />
     </div>
   );
