@@ -1,45 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 function ExpenseForm({ onAddExpense }) {
-  const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
-  const [amount, setAmount] = useState('');
+    const [formData, setFormData] = useState({
+        name:"",
+        description:"",
+        category:"",
+        amount: "",
+        date: "",
+    });
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onAddExpense({ description, category, amount: parseFloat(amount) });
-    setDescription('');
-    setCategory('');
-    setAmount('');
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
-      />
-      <input
-        type="text"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        placeholder="Category"
-      />
-      <input
-        type="number"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        placeholder="Amount"
-      />
-      <button type="submit">Add Expense</button>
-    </form>
-  );
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (formData.name && formData.amount && formData.date ){
+            onAddExpense(formData);
+            setFormData({
+                name: "",
+                description: "",
+                category: "",
+                amount: "",
+                date: "",
+            });
+        }
+    };
+    return (
+        <form action= "" className="expense-form" onSubmit={handleSubmit}>
+            <h3>Add Expense</h3>
+            <input 
+            name="name" 
+            value={formData.name} 
+            onChange={handleChange} 
+            placeholder="Enter expense name" 
+            required 
+            />
+            <input name="description" value={formData.description} onChange={handleChange} placeholder="Enter expense description" />
+            <input name="category" value={formData.category} onChange={handleChange} placeholder="Enter category" />
+            <input name="amount" type="number" value={formData.amount} onChange={handleChange} placeholder="Enter amount" required />
+            <input name="date" type="date" value={formData.date} onChange={handleChange} required />
+            <button type="submit">Submit</button>
+        </form>
+    )
 }
 
-ExpenseForm.propTypes = {
-  onAddExpense: PropTypes.func.isRequired,
-};
-
-export default ExpenseForm;
+export default ExpenseForm

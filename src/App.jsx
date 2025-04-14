@@ -1,38 +1,57 @@
-import { useState } from 'react';
-import './App.css';
-import ExpenseTable from './components/ExpenseTable';
+import React, { useState } from 'react';
 import ExpenseForm from './components/ExpenseForm';
+import ExpenseTable from './components/ExpenseTable';
 import SearchBar from './components/SearchBar';
+import expensesData from "./Data/expensesData";
+import './App.css';
 
 function App() {
-  const [expenses, setExpenses] = useState([
-    { id: 1, description: 'Groceries', category: 'Food', amount: 25 },
-    { id: 2, description: 'Bus Ticket', category: 'Transport', amount: 5 },
-    { id: 3, description: 'Movie', category: 'Entertainment', amount: 15 },
-  ]);
-
+  const [expenses, setExpenses] = useState(expensesData);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleAddExpense = (newExpense) => {
-    setExpenses([...expenses, { ...newExpense, id: expenses.length + 1 }]);
+  const handleAddExpense = (expense) => {
+    setExpenses([...expenses, expense]);
   };
 
-  const filteredExpenses = expenses.filter((expense) =>
-    expense.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleDelete = (id) => {
+    setExpenses(expenses.filter(expense => expense.id !== id));
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term.toLowerCase()); 
+  };
+
+  const handleSort = (key) => {
+    const sorted = [...expenses].sort((a, b) =>
+      a[key]?.toString().localeCompare(b[key]?.toString())
+    );
+    setExpenses(sorted);
+  };
+
+  const filteredExpenses = expenses.filter((expense) => {
+    return (
+      expense.name.toLowerCase().includes(searchTerm) ||
+      expense.description.toLowerCase().includes(searchTerm) 
+    );
+  });
 
   return (
-    <div className="App">
+    <div className="container">
       <h1>Expense Tracker</h1>
-      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <ExpenseForm onAddExpense={handleAddExpense} />
-      <ExpenseTable expenses={filteredExpenses} />
+      <p>Start keeping control of your finances</p>
+      <div className="content">
+        <ExpenseForm onAddExpense={handleAddExpense} />
+        <div className="search-table-container">
+          <SearchBar onSearch={handleSearch} />
+          <ExpenseTable
+            expenses={filteredExpenses}
+            onDelete={handleDelete}
+            onSort={handleSort}
+          />
+        </div>
+      </div>
     </div>
   );
-  
 }
 
-// Removed duplicate JSX block outside the App function
-
-
-export default App;
+export default App

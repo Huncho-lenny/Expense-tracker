@@ -1,20 +1,13 @@
-import React from 'react';
-
-function SearchBar({ searchTerm, setSearchTerm }) {
+function SearchBar({ onSearch }) {
     return (
+      <div className="searchBar">
         <input
-            className="search-bar"
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search expenses..."
+          type="search"
+          id="search"
+          placeholder="search expense.."
+          onChange={(e) => onSearch(e.target.value)}
         />
+      </div>
     );
-}
-
-SearchBar.propTypes = {
-  searchTerm: PropTypes.string.isRequired,
-  setSearchTerm: PropTypes.func.isRequired,
-};
-
-export default SearchBar;
+  }
+  export default SearchBar;

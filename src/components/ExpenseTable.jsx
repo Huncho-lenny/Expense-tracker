@@ -1,37 +1,33 @@
 import React from 'react';
 
 function ExpenseTable({ expenses }) {
-  return (
-    <table className="table-expense">
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Category</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        {expenses.map((expense) => (
-          <tr key={expense.id}>
-            <td>{expense.description}</td>
-            <td>{expense.category}</td>
-            <td>{expense.amount}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+    return (
+        <div className="expense-table-wrapper">
+            <input className="search-bar" placeholder="🔍 Search expenses..." disabled />
+            <table className="expense-table">
+                <thead>
+                    <tr>
+                        <th>Expense</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {expenses.map((exp) => (
+                       <tr key={exp.id}>
+                            <td>{exp.name}</td>
+                            <td>{exp.description}</td>
+                            <td>{exp.category}</td>
+                            <td>{exp.amount}</td>
+                            <td>{exp.date}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 }
-
-ExpenseTable.propTypes = {
-  expenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      description: PropTypes.string.isRequired,
-      category: PropTypes.string.isRequired,
-      amount: PropTypes.number.isRequired,
-    })
-  ).isRequired,
-};
 
 export default ExpenseTable;
