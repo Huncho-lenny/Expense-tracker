@@ -29,6 +29,10 @@ function App() {
       <ExpenseTable expenses={filteredExpenses} />
     </div>
   );
+  
 }
+
+// Removed duplicate JSX block outside the App function
+
 
 export default App;

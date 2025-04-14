@@ -2,7 +2,7 @@ import React from 'react';
 
 function ExpenseTable({ expenses }) {
   return (
-    <table>
+    <table className="table-expense">
       <thead>
         <tr>
           <th>Description</th>
